@@ -19,6 +19,10 @@ class ftree {
             return _relations.size();
         }
 
+        int getParent(int node) {
+            return _relations.at(node);
+        }
+
         vector<int> getChildren (int parent) {
             vector<int> found;
             found = _getOccurences(parent);
@@ -54,7 +58,6 @@ class ftree {
                 vector<int> found = _getOccurences(counter);
                 if (found.size() > indexes.at(_depths[counter])) {
                     counter = found.at(indexes.at(_depths[counter]));
-                    //for (int i = 0; i < _depths[counter]; i++) {cout << " "}
                     sorted.push_back(counter);
                     if (indexes.size() > _depths[counter]+1) {
                         indexes.at(_depths[counter]+1) = 0;
@@ -126,6 +129,7 @@ class ftree {
             }
             return 0;
         }
+
 
     private:
         vector<int> _relations;
