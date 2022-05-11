@@ -48,23 +48,16 @@ class ftree {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) { // This is quite inefficient
-            _relations.erase(_relations.begin() + node);
-            _depths.erase(_depths.begin() + node);
-            _names.erase(_names.begin() + node);
-            for (int i = 0; i < _relations.size(); i++) {
-                if (_relations.at(i) == node) {
-                    _relations.erase(_relations.begin() + i);
-                    _depths.erase(_depths.begin() + i);
-                    _names.erase(_names.begin() + i);
-                    for (int j = i; j < _relations.size(); j++) {
-                        if (_relations.at(j) > i) _relations.at(j)--;
-                    }
-                }
+        void removeNode(unsigned int node) {
+            vector<int> found = getAllChildren(node);
+            while (found.size() != 0) {
+                _rLastNode(found.at(found.size()-1));
+                found = getAllChildren(node);
             }
+            _rLastNode(node);
         }
 
-        void printTree() { // this is quite ugly
+        void printTree() { // This is quite ugly
             int depth = 0;
             int counter = 0;
             vector<int> sorted;
@@ -161,6 +154,15 @@ class ftree {
                     _found.push_back(i);
             }
             return _found;
+        }
+
+        void _rLastNode(unsigned int node) {
+            _relations.erase(_relations.begin() + node);
+            _depths.erase(_depths.begin() + node);
+            _names.erase(_names.begin() + node);
+            for (int i = 1; i < _relations.size(); i++) {
+                if (_relations.at(i) > node) _relations.at(i)--;
+            }
         }
 
 };
