@@ -10,14 +10,16 @@ template <class T>
 class ftree {
     public:
         ftree () { _relations.push_back(-1);
-                   _depths.push_back(0); 
-                   _names.push_back(""); }
+                   _depths.push_back(0);
+                   T push; 
+                   _names.push_back(push); }
 
 
         int addNode (unsigned int parent) {
             _relations.push_back(parent);
             _depths.push_back(_depths.at(parent)+1);
-            _names.push_back("");
+            T push;
+            _names.push_back(push);
             return _relations.size()-1;
         }
 
@@ -44,7 +46,7 @@ class ftree {
             return found;
         }
 
-        void setName (unsigned int node, string desc) {
+        void setName (unsigned int node, T desc) {
             _names.at(node) = desc;
         }
 
