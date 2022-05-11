@@ -48,7 +48,7 @@ class ftree {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) {
+        void removeNode(unsigned int node) { // Not very efficient, but neccessary in this vector implementation
             vector<int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
@@ -57,7 +57,7 @@ class ftree {
             _rLastNode(node);
         }
 
-        void printTree() { // This is quite ugly
+        void printTree() {
             int depth = 0;
             int counter = 0;
             vector<int> sorted;
@@ -85,6 +85,8 @@ class ftree {
                     indexes.at(_depths[counter]) += 1;
                 }
             }
+            // The rest of this function doesn't scale well at all... 
+            // ...but that's probably fine since you're likely not going to want to print tens of thousands of branches in this way anyway
             char matrix[sorted.size()+1][maxdepth];
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
