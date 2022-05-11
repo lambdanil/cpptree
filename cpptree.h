@@ -54,7 +54,7 @@ class cpptree {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) {
+        void removeNode(unsigned int node) { // Removing nodes in this vector implementation is _very_ slow
             vector<int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
@@ -132,8 +132,8 @@ class cpptree {
 
     private:
         vector<int> _relations;
-        vector<T> _names;
-        vector<int> _depths;
+        vector<T> _names; // Time complexity of accesing a specific node is constant
+        vector<int> _depths; // Allows skipping depth calculation when printing, this is pretty much a waste of memory actually and I should fix it later
 
 
         vector<int> _getOccurences(unsigned int parent) {
