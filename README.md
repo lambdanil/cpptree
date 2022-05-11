@@ -4,6 +4,9 @@ C++ tree implementation using vectors
 
 ## Usage:
 ```cpp
+#include<iostream>
+#include "cpptree.h"
+
 int main() {
     ftree<string> mytree;
     mytree.addNode(0); // Add to node 0
