@@ -143,7 +143,7 @@ class ftree {
                     else if (matrix[i][j] == '|') cout << "│   ";
                     else if (matrix[i][j] == '.') cout << "    ";
                 }
-                cout << sorted.at(i) << " - " << _names.at(i+1);
+                cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
                 cout << "\n";
             }
         }
