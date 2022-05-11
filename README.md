@@ -8,7 +8,7 @@ C++ tree implementation using vectors
 #include "cpptree.h"
 
 int main() {
-    ftree<string> mytree;
+    ftree<std::string> mytree;
     mytree.addNode(0); // Add to node 0
     mytree.addNode(0);
     int nodenum = mytree.addNode(2); // Return value is the new nodes number
