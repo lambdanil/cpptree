@@ -65,7 +65,11 @@ class ftree {
             unsigned int maxdepth = 0;
             for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths[i];
             vector<int> sorted = _sortedCrawl();
-            char matrix[sorted.size()+1][maxdepth];
+            
+            char** matrix = new char*[sorted.size()+1];
+            for(int i = 0; i < sorted.size()+1; ++i)
+                matrix[i] = new char[maxdepth+1];
+
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
                     if (j < _depths[sorted[i]])
@@ -98,7 +102,6 @@ class ftree {
                     }
                 }
             }
-            
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x' ) {
@@ -121,6 +124,10 @@ class ftree {
                 cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
                 cout << "\n";
             }
+
+            for(int i = 0; i < sorted.size()+1; ++i)
+                delete[] matrix[i];
+            delete[] matrix;
         }
 
     private:
