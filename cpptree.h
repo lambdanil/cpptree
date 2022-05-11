@@ -107,13 +107,6 @@ class ftree {
                     if (matrix[i][j] == '.' && j == maxdepth-1) matrix[i][j] = 'x';
                 }
             }
-
- for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    cout << matrix[i][j];
-                }
-                cout << "\n";
-            }
             int exs = 0;
             int nypos = 0;
             for (int i = 0; i < sorted.size(); i++) {
@@ -132,13 +125,6 @@ class ftree {
                     }
                 }
             }
-
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    cout << matrix[i][j];
-                }
-                cout << "\n";
-            }
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x' ) {
@@ -149,14 +135,6 @@ class ftree {
                     //else if (matrix[i][j] == '.') matrix[i][j] = '.';
                 }
             }
-
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    cout << matrix[i][j];
-                }
-                cout << "\n";
-            }
-
             cout << "0 - " << _names.at(0) << "\n";
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
