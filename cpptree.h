@@ -9,7 +9,7 @@ using std::string;
 using std::cout;
 
 template <class T>
-class ftree {
+class cpptree {
     public:
         ftree () { _relations.push_back(-1);
                    _depths.push_back(0);
