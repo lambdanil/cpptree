@@ -51,7 +51,7 @@ class ftree {
             int counter = 0;
             vector<int> sorted;
             int maxdepth = INT32_MIN;
-            for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths.at(i);
+            for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths[i];
             vector<int> indexes;
             indexes.push_back(0);
             while (true) {
@@ -61,7 +61,7 @@ class ftree {
                     sorted.push_back(counter);
                     if (indexes.size() > _depths[counter]+1) {
                         indexes.at(_depths[counter]+1) = 0;
-                        for (int i = _depths[counter]; i < indexes.size()-1; i++) {
+                        for (int i = _depths[counter]; i < indexes.size(); i++) {
                             indexes.at(i) = 0;
                         }
                     }
@@ -74,35 +74,27 @@ class ftree {
                     indexes.at(_depths[counter]) += 1;
                 }
             }
-            char matrix[maxdepth][sorted.size()];
-            for (int i = 0; i < maxdepth; i++) {
-                for (int j = 0; j < sorted.size(); j++) {
+            char matrix[sorted.size()+1][maxdepth];
+            for (int i = 0; i < sorted.size(); i++) {
+                for (int j = 0; j < maxdepth; j++) {
                     if (j < _depths[sorted[i]])
                         matrix[i][j] = '.';
                     else
                         matrix[i][j] = ' ';
                 }
             }
-            
-            for (int i = 0; i < maxdepth; i++) {
-                for (int j = 0; j < sorted.size(); j++) {
-                    cout << matrix[i][j];
-                }
-                cout << "\n";
-            }
-
-            /*for (int i = 0; i < maxdepth; i++) {
-                for (int j = 0; j < sorted.size(); j++) {
+            for (int i = 0; i < sorted.size(); i++) {
+                for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == '.' && matrix[i][j+1] == ' ') matrix[i][j] = 'x';
-                    if (matrix[i][j] == '.' && j == sorted.size()-1) matrix[i][j] = 'x';
+                    if (matrix[i][j] == '.' && j == maxdepth-1) matrix[i][j] = 'x';
                 }
             }
             int exs = 0;
             int nypos = 0;
-            for (int i = 0; i < maxdepth; i++) {
-                for (int j = 0; j < sorted.size(); j++) {
+            for (int i = 0; i < sorted.size(); i++) {
+                for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x') {
-                        for (int k = i+1; k < maxdepth; k++) {
+                        for (int k = i+1; k < sorted.size(); k++) {
                             if (matrix[k][j] == 'x') exs++;
                         }
                     }
@@ -114,10 +106,10 @@ class ftree {
                     }
                 }
             }
-            for (int i = 0; i < maxdepth-1; i++) {
-                for (int j = 0; j < sorted.size(); j++) {
+            for (int i = 0; i < sorted.size(); i++) {
+                for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x' ) {
-                        if (j < sorted.size()-1)
+                        if (j < maxdepth-1)
                             if (matrix[i][j+1] == 'x') matrix[i][j] = '|';
                         if (matrix[i][j+1] != 'x' && matrix[i+1][j] == 'x') matrix[i][j] = '+';
                         if (matrix[i][j+1] != 'x' && matrix[i+1][j] != 'x') matrix[i][j] = 'L';
@@ -125,18 +117,20 @@ class ftree {
                     else if (matrix[i][j] == '.') matrix[i][j] = '.';
                 }
             }
-            for (int i = 0; i < maxdepth; i++) {
-                for (int j = 0; j < sorted.size(); j++) {
+            cout << "0 - " << _names.at(0) << "\n";
+            for (int i = 0; i < sorted.size(); i++) {
+                for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == '+') cout << "├── ";
                     else if (matrix[i][j] == 'L') cout << "└── ";
                     else if (matrix[i][j] == '|') cout << "│   ";
                     else if (matrix[i][j] == '.') cout << "    ";
                 }
-                cout << sorted.at(i) << " - " << _names.at(i);
+                cout << sorted.at(i) << " - " << _names.at(i+1);
                 cout << "\n";
-            }*/
+            }
             return 0;
         }
+
 
     private:
         vector<int> _relations;
@@ -160,7 +154,6 @@ int main() {
     mytree.addTo(0);
     mytree.addTo(0);
     mytree.addTo(2);
-    mytree.addTo(3);
     mytree.addTo(3);
     mytree.addTo(3);
     mytree.setName(0,"root");
