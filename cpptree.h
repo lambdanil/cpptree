@@ -11,15 +11,13 @@ class ftree {
     public:
         ftree () { _relations.push_back(-1);
                    _depths.push_back(0);
-                   T push; 
-                   _names.push_back(push); }
+                   _names.push_back(T()); }
 
 
         int addNode (unsigned int parent) {
             _relations.push_back(parent);
             _depths.push_back(_depths.at(parent)+1);
-            T push;
-            _names.push_back(push);
+            _names.push_back(T());
             return _relations.size()-1;
         }
 
