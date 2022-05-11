@@ -18,6 +18,7 @@ int main() {
     mytree.addNode(new_nodenum);
     mytree.removeNode(new_nodenum); // removeNode removes a Node (recursively of course!)
     // When a node is removed, all nodes with a higher number move 1 number down, to fill the number gap - there's never an unused number!
+    std::cout << mytree.getName(3); // Get value at node 3 (in this case a string)
 
     mytree.printTree();
 }
