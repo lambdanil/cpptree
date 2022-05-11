@@ -120,13 +120,14 @@ class ftree {
                 for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x') {
                         for (int k = i+1; k < sorted.size(); k++) {
+                            if (matrix[k][j] != '.' && matrix[k][j] != 'x') break;
                             if (matrix[k][j] == 'x') exs++;
                         }
                     }
                     nypos = i+1;
                     while (exs != 0) {
-                        if (matrix[nypos][j] == 'x') --exs;
-                        else if (matrix[nypos][j] == '.') matrix[nypos][j] = 'x';
+                        if (matrix[nypos][j] == '.') matrix[nypos][j] = 'x';
+                        else if (matrix[nypos][j] == 'x') --exs;
                         nypos++;
                     }
                 }
@@ -142,10 +143,10 @@ class ftree {
                 for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x' ) {
                         if (matrix[i][j+1] != 'x' && matrix[i+1][j] == 'x') matrix[i][j] = '+';
-                        if (matrix[i][j+1] == 'x' || matrix[i][j+1] == '.') matrix[i][j] = '|';
                         if (matrix[i][j+1] != 'x' && matrix[i+1][j] != 'x') matrix[i][j] = 'L';
+                        if (matrix[i][j+1] == 'x' || matrix[i][j+1] == '.') matrix[i][j] = '|';
                     }
-                    else if (matrix[i][j] == '.') matrix[i][j] = '.';
+                    //else if (matrix[i][j] == '.') matrix[i][j] = '.';
                 }
             }
 
