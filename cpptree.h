@@ -12,37 +12,35 @@ template <class T>
 class cpptree {
     public:
         cpptree () { _relations.push_back(-1);
-                   _depths.push_back(0);
                    _names.push_back(T()); }
 
 
-        int addNode (unsigned int parent) {
+        unsigned int addNode (unsigned int parent) {
             _relations.push_back(parent);
-            _depths.push_back(_depths.at(parent)+1);
             _names.push_back(T());
             return _relations.size()-1;
         }
 
-        int getParent(int node) {
+        unsigned int getParent(unsigned int node) {
             return _relations.at(node);
         }
 
-        vector<int> getChildren (int parent) {
-            vector<int> found;
+        vector<unsigned int> getChildren (int parent) {
+            vector<unsigned int> found;
             found = _getOccurences(parent);
             return found;
         }
 
-        T getName(int node) {
+        T getName(unsigned int node) {
             return _names.at(node);
         }
 
-        vector<int> getAllChildren (int parent) {
-            vector<int> found;
+        vector<unsigned int> getAllChildren (unsigned int parent) {
+            vector<unsigned int> found;
             found = _getOccurences(parent);
             int i  = 0;
             while (i < found.size()) {
-                vector<int> nfound;
+                vector<unsigned int> nfound;
                 nfound = _getOccurences(found.at(i));
                 found.insert(found.end(), nfound.begin(), nfound.end());
                 ++i;
@@ -55,7 +53,7 @@ class cpptree {
         }
 
         void removeNode(unsigned int node) { // Removing nodes in this vector implementation is _very_ slow
-            vector<int> found = getAllChildren(node);
+            vector<unsigned int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
                 found = getAllChildren(node);
@@ -65,8 +63,8 @@ class cpptree {
 
         void printTree() { // This implementation of printing the tree is a bit dumb... but it's fast enough so WONTFIX
             unsigned int maxdepth = 0;
-            for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths[i];
-            vector<int> sorted = _sortedCrawl();
+            for (int i = 0; i < _relations.size(); i++) if (_getDepth(i) > maxdepth) maxdepth = _getDepth(i);
+            vector<unsigned int> sorted = _sortedCrawl();
             
             char** matrix = new char*[sorted.size()+1];
             for(int i = 0; i < sorted.size()+1; ++i)
@@ -74,7 +72,7 @@ class cpptree {
 
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
-                    if (j < _depths[sorted[i]])
+                    if (j < _getDepth(sorted[i]))
                         matrix[i][j] = '.';
                     else
                         matrix[i][j] = ' ';
@@ -132,12 +130,11 @@ class cpptree {
 
     private:
         vector<int> _relations;
-        vector<T> _names; // Time complexity of accesing a specific node is constant
-        vector<int> _depths; // Allows skipping depth calculation when printing, this is pretty much a waste of memory actually and I should fix it later
+        vector<T> _names;
 
 
-        vector<int> _getOccurences(unsigned int parent) {
-            vector<int> _found;
+        vector<unsigned int> _getOccurences(unsigned int parent) {
+            vector<unsigned int> _found;
             for (int i = 0; i < _relations.size(); i++) {
                 if (_relations.at(i) == parent) 
                     _found.push_back(i);
@@ -147,26 +144,36 @@ class cpptree {
 
         void _rLastNode(unsigned int node) {
             _relations.erase(_relations.begin() + node);
-            _depths.erase(_depths.begin() + node);
             _names.erase(_names.begin() + node);
             for (int i = 1; i < _relations.size(); i++) {
                 if (_relations.at(i) > node) _relations.at(i)--;
             }
         }
 
-        vector<int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
+
+        unsigned int _getDepth(unsigned int node) {
+            int parent = getParent(node);
+            int depth = 0;
+            while (parent != -1) {
+                parent = getParent(parent);
+                depth++;
+            }
+            return depth;
+        }
+
+        vector<unsigned int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
             int counter = 0;
-            vector<int> sorted;
-            vector<int> indexes;
+            vector<unsigned int> sorted;
+            vector<unsigned int> indexes;
             indexes.push_back(0);
             while (true) {
-                vector<int> found = _getOccurences(counter);
-                if (found.size() > indexes.at(_depths[counter])) {
-                    counter = found.at(indexes.at(_depths[counter]));
+                vector<unsigned int> found = _getOccurences(counter);
+                if (found.size() > indexes.at(_getDepth(counter))) {
+                    counter = found.at(indexes.at(_getDepth(counter)));
                     sorted.push_back(counter);
-                    if (indexes.size() > _depths[counter]+1) {
-                        indexes.at(_depths[counter]+1) = 0;
-                        for (int i = _depths[counter]; i < indexes.size(); i++) {
+                    if (indexes.size() > _getDepth(counter)+1) {
+                        indexes.at(_getDepth(counter)+1) = 0;
+                        for (int i = _getDepth(counter); i < indexes.size(); i++) {
                             indexes.at(i) = 0;
                         }
                     }
@@ -176,7 +183,7 @@ class cpptree {
                 else {
                     counter = _relations[counter];
                     if (counter == -1) break;
-                    indexes.at(_depths[counter]) += 1;
+                    indexes.at(_getDepth(counter)) += 1;
                 }
             }
             return sorted;
