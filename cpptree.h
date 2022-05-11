@@ -11,7 +11,7 @@ using std::cout;
 template <class T>
 class cpptree {
     public:
-        ftree () { _relations.push_back(-1);
+        cpptree () { _relations.push_back(-1);
                    _depths.push_back(0);
                    _names.push_back(T()); }
 
