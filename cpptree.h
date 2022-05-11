@@ -1,3 +1,5 @@
+#ifndef _cpptree_h_
+#define _cpptree_h_
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -181,3 +183,4 @@ class ftree {
         }
 
 };
+#endif
