@@ -6,17 +6,19 @@ using std::vector;
 using std::string;
 using std::cout;
 
+template <class T>
 class ftree {
     public:
         ftree () { _relations.push_back(-1);
                    _depths.push_back(0); 
                    _names.push_back(""); }
 
-        int addTo (unsigned int parent) {
+
+        int addNode (unsigned int parent) {
             _relations.push_back(parent);
             _depths.push_back(_depths.at(parent)+1);
             _names.push_back("");
-            return _relations.size();
+            return _relations.size()-1;
         }
 
         int getParent(int node) {
@@ -46,11 +48,27 @@ class ftree {
             _names.at(node) = desc;
         }
 
-       int printTree() { // this function is quite something
+        void removeNode(unsigned int node) { // This is quite inefficient
+            _relations.erase(_relations.begin() + node);
+            _depths.erase(_depths.begin() + node);
+            _names.erase(_names.begin() + node);
+            for (int i = 0; i < _relations.size(); i++) {
+                if (_relations.at(i) == node) {
+                    _relations.erase(_relations.begin() + i);
+                    _depths.erase(_depths.begin() + i);
+                    _names.erase(_names.begin() + i);
+                    for (int j = i; j < _relations.size(); j++) {
+                        if (_relations.at(j) > i) _relations.at(j)--;
+                    }
+                }
+            }
+        }
+
+        void printTree() { // this is quite ugly
             int depth = 0;
             int counter = 0;
             vector<int> sorted;
-            int maxdepth = INT32_MIN;
+            unsigned int maxdepth = 0;
             for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths[i];
             vector<int> indexes;
             indexes.push_back(0);
@@ -128,13 +146,11 @@ class ftree {
                 cout << sorted.at(i) << " - " << _names.at(i+1);
                 cout << "\n";
             }
-            return 0;
         }
-
 
     private:
         vector<int> _relations;
-        vector<string> _names;
+        vector<T> _names;
         vector<int> _depths;
 
 
@@ -150,18 +166,13 @@ class ftree {
 };
 
 int main() {
-    ftree mytree;
-    mytree.addTo(0);
-    mytree.addTo(0);
-    mytree.addTo(2);
-    mytree.addTo(3);
-    mytree.addTo(3);
-    mytree.setName(0,"root");
-    mytree.setName(1,"base image");
-    mytree.setName(2,"multiuser system");
-    mytree.setName(3,"applications");
-    mytree.setName(4,"MATE full desktop");
-    mytree.setName(5,"Plasma full desktop");
-    
+    ftree<string> mytree;
+    mytree.addNode(0); // Add to node 0
+    mytree.addNode(0);
+    int nodenum = mytree.addNode(2); // Return value is the new nodes number
+    mytree.addNode(nodenum); // Add a new node to the node added to 2
+    mytree.setName(nodenum, "Some string here"); // Set the value of nodenum (the node added to 2) to a string (or other data type)
+
     mytree.printTree();
 }
+
