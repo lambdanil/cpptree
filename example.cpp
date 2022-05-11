@@ -3,7 +3,7 @@
 
 
 int main() {
-    ftree<std::string> mytree;
+    cpptree<std::string> mytree;
     mytree.addNode(0);
     mytree.addNode(1);
     mytree.addNode(2);
