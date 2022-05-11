@@ -61,7 +61,7 @@ class ftree {
             _rLastNode(node);
         }
 
-        void printTree() {
+        void printTree() { // This implementation of printing the tree is a bit dumb... but it's fast enough so WONTFIX
             unsigned int maxdepth = 0;
             for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths[i];
             vector<int> sorted = _sortedCrawl();
@@ -112,7 +112,6 @@ class ftree {
                     }
                 }
             }
-            
             cout << "0 - " << _names.at(0) << "\n";
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
@@ -124,7 +123,6 @@ class ftree {
                 cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
                 cout << "\n";
             }
-
             for(int i = 0; i < sorted.size()+1; ++i)
                 delete[] matrix[i];
             delete[] matrix;
