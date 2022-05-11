@@ -31,6 +31,10 @@ class ftree {
             return found;
         }
 
+        T getName(int node) {
+            return _names.at(node);
+        }
+
         vector<int> getAllChildren (int parent) {
             vector<int> found;
             found = _getOccurences(parent);
@@ -48,7 +52,7 @@ class ftree {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) { // Not very efficient, but neccessary in this vector implementation
+        void removeNode(unsigned int node) {
             vector<int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
@@ -58,35 +62,9 @@ class ftree {
         }
 
         void printTree() {
-            int depth = 0;
-            int counter = 0;
-            vector<int> sorted;
             unsigned int maxdepth = 0;
             for (int i = 0; i < _depths.size(); i++) if (_depths[i] > maxdepth) maxdepth = _depths[i];
-            vector<int> indexes;
-            indexes.push_back(0);
-            while (true) {
-                vector<int> found = _getOccurences(counter);
-                if (found.size() > indexes.at(_depths[counter])) {
-                    counter = found.at(indexes.at(_depths[counter]));
-                    sorted.push_back(counter);
-                    if (indexes.size() > _depths[counter]+1) {
-                        indexes.at(_depths[counter]+1) = 0;
-                        for (int i = _depths[counter]; i < indexes.size(); i++) {
-                            indexes.at(i) = 0;
-                        }
-                    }
-                    else
-                        indexes.push_back(0);
-                }
-                else {
-                    counter = _relations[counter];
-                    if (counter == -1) break;
-                    indexes.at(_depths[counter]) += 1;
-                }
-            }
-            // The rest of this function doesn't scale well at all... 
-            // ...but that's probably fine since you're likely not going to want to print tens of thousands of branches in this way anyway
+            vector<int> sorted = _sortedCrawl();
             char matrix[sorted.size()+1][maxdepth];
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
@@ -120,6 +98,7 @@ class ftree {
                     }
                 }
             }
+            
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
                     if (matrix[i][j] == 'x' ) {
@@ -130,6 +109,7 @@ class ftree {
                     }
                 }
             }
+            
             cout << "0 - " << _names.at(0) << "\n";
             for (int i = 0; i < sorted.size(); i++) {
                 for (int j = 0; j < maxdepth; j++) {
@@ -165,6 +145,34 @@ class ftree {
             for (int i = 1; i < _relations.size(); i++) {
                 if (_relations.at(i) > node) _relations.at(i)--;
             }
+        }
+
+        vector<int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
+            int counter = 0;
+            vector<int> sorted;
+            vector<int> indexes;
+            indexes.push_back(0);
+            while (true) {
+                vector<int> found = _getOccurences(counter);
+                if (found.size() > indexes.at(_depths[counter])) {
+                    counter = found.at(indexes.at(_depths[counter]));
+                    sorted.push_back(counter);
+                    if (indexes.size() > _depths[counter]+1) {
+                        indexes.at(_depths[counter]+1) = 0;
+                        for (int i = _depths[counter]; i < indexes.size(); i++) {
+                            indexes.at(i) = 0;
+                        }
+                    }
+                    else
+                        indexes.push_back(0);
+                }
+                else {
+                    counter = _relations[counter];
+                    if (counter == -1) break;
+                    indexes.at(_depths[counter]) += 1;
+                }
+            }
+            return sorted;
         }
 
 };
