@@ -25,6 +25,10 @@ class cpptree {
             return _relations.at(node);
         }
 
+        void setParent (unsigned int node, unsigned int parent) {
+            _relations.at(node) = parent;
+        }
+
         vector<unsigned int> getChildren (int parent) {
             vector<unsigned int> found;
             found = _getOccurences(parent);
