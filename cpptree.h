@@ -56,7 +56,12 @@ class cpptree {
             vector<unsigned int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
-                found = getAllChildren(node);
+                found.erase(found.begin() + (found.size()-1));
+                for (int i = 0; i < found.size(); i++) {
+                    if (found.at(i) > found.at(found.size()-1)) {
+                        found.at(i)--;
+                    }
+                }
             }
             _rLastNode(node);
         }
