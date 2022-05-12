@@ -53,7 +53,6 @@ class cpptree {
         }
 
         void removeNode(unsigned int node) { // Removing nodes in this vector implementation is slow
-            // This is the best implementation I could come up with
             vector<unsigned int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
