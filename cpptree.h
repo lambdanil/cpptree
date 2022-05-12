@@ -52,18 +52,25 @@ class cpptree {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) { // Removing nodes in this vector implementation is slow
+        void removeNode(unsigned int node) { // It's kinda slow (but that's the disadvantage of using a vector implementation like this)
+        // This is my best attempt at optimizing this 
             vector<unsigned int> found = getAllChildren(node);
-            while (found.size() != 0) {
-                _rLastNode(found.at(found.size()-1));
-                found.erase(found.begin() + (found.size()-1));
-                for (int i = 0; i < found.size(); i++) {
-                    if (found.at(i) > found.at(found.size()-1)) {
-                        found.at(i)--;
+            found.push_back(node);
+            for (int i = 0; i < found.size(); i++) {
+                _relations.at(found.at(i)) = -1;
+            }
+            for (int i = 1; i < _relations.size(); i++) {
+                for (int j = 0; j < found.size(); j++) {
+                    if (_relations.at(i) > node+j && _relations.at(i) > 0) _relations.at(i)--;
+                    if (_relations.at(i) > found.at(j) && _relations.at(i) > 0) {
+                        _relations.at(i)--;
                     }
                 }
+                if (_relations.at(i) < 0) {
+                    _relations.erase(_relations.begin()+i);
+                    i--;
+                }
             }
-            _rLastNode(node);
         }
 
         void printTree() { // This implementation of printing the tree is a bit dumb... but it's fast enough so WONTFIX
@@ -146,15 +153,6 @@ class cpptree {
             }
             return _found;
         }
-
-        void _rLastNode(unsigned int node) {
-            _relations.erase(_relations.begin() + node);
-            _names.erase(_names.begin() + node);
-            for (int i = 1; i < _relations.size(); i++) {
-                if (_relations.at(i) > node) _relations.at(i)--;
-            }
-        }
-
 
         unsigned int _getDepth(unsigned int node) {
             int parent = getParent(node);
