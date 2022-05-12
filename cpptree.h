@@ -1,5 +1,5 @@
-#ifndef _cpptree_h_
-#define _cpptree_h_
+#ifndef CPPTREE_H_
+#define CPPTREE_H_
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -140,7 +140,6 @@ class cpptree {
     private:
         vector<int> _relations;
         vector<T> _names;
-
 
         vector<unsigned int> _getOccurences(unsigned int parent) {
             vector<unsigned int> _found;
