@@ -1,6 +1,7 @@
 # cpptree
 C++ tree implementation using vectors
 
+## Build with optimizations
 
 ## Usage:
 ```cpp
