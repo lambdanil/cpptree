@@ -14,7 +14,6 @@ class cpptree {
         cpptree () { _relations.push_back(-1);
                    _names.push_back(T()); }
 
-
         unsigned int addNode (unsigned int parent) {
             _relations.push_back(parent);
             _names.push_back(T());
@@ -25,10 +24,19 @@ class cpptree {
             return _relations.at(node);
         }
 
+        void setParent(unsigned int node, unsigned int parent) {
+            _relations.at(node) = parent;
+        }
+
         vector<unsigned int> getChildren (int parent) {
             vector<unsigned int> found;
             found = _getOccurences(parent);
             return found;
+        }
+
+        bool inRange(unsigned int val) {
+            if (val >= 0 && val < _relations.size()) return true;
+            else return false;
         }
 
         T getName(unsigned int node) {
