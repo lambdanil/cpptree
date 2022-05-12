@@ -32,8 +32,7 @@ void NodeAdd(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
-    while (getchar() != '\n');
-    getchar();
+    cin.ignore();
 }
 
 void NodeRemove(cpptree<string>* my_tree) {
@@ -50,8 +49,7 @@ void NodeRemove(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '0' can't be removed.\n";
     }
-    while (getchar() != '\n');
-    getchar();
+    cin.ignore();
 }
 
 void NodeAssign(cpptree<string>* my_tree) {
@@ -60,16 +58,16 @@ void NodeAssign(cpptree<string>* my_tree) {
     cin >> select;
     if (my_tree->inRange(select)) {
         cout << "\nWhat value do you want to set? (enter any string)\n";
+        while (getchar() != '\n');
         string myVal;
-        cin >> myVal;
+        getline(cin, myVal);
         my_tree->setName(select, myVal);
         cout << "\nValue assigned to node.\n";
     }
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
-    while (getchar() != '\n');
-    getchar();
+    cin.ignore();
 }
 
 void NodeNodes(cpptree<string>* my_tree) {
@@ -88,8 +86,7 @@ void NodeNodes(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
-    while (getchar() != '\n');
-    getchar();
+    cin.ignore();
 }
 
 void NodeAllNodes(cpptree<string>* my_tree) {
@@ -108,8 +105,7 @@ void NodeAllNodes(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
-    while (getchar() != '\n');
-    getchar();
+    cin.ignore();
 }
 
 int main() {
@@ -150,8 +146,8 @@ int main() {
                 break;
             default:
                 cout << "\nNot a valid choice!\n";
-                while (getchar() != '\n');
-                getchar();
+                cin.ignore();
+                break;
         }
     }
 }
