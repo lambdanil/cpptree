@@ -48,6 +48,10 @@ class cpptree {
             return found;
         }
 
+        unsigned int getSize() {
+            return _relations.size();
+        }
+
         void setName (unsigned int node, T desc) {
             _names.at(node) = desc;
         }
@@ -154,7 +158,6 @@ class cpptree {
                 if (_relations.at(i) > node) _relations.at(i)--;
             }
         }
-
 
         unsigned int _getDepth(unsigned int node) {
             int parent = getParent(node);
