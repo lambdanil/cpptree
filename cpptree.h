@@ -52,7 +52,7 @@ class cpptree {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) { // Removing nodes in this vector implementation is _very_ slow
+        void removeNode(unsigned int node) { // Removing nodes in this vector implementation is slow
             vector<unsigned int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
