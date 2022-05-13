@@ -14,41 +14,41 @@ class cpptree {
         cpptree () { _relations.push_back(-1);
                    _names.push_back(T()); }
 
-        unsigned int addNode (unsigned int parent) {
+        int addNode (int parent) {
             _relations.push_back(parent);
             _names.push_back(T());
             return _relations.size()-1;
         }
 
-        unsigned int getParent(unsigned int node) {
+        int getParent(int node) {
             return _relations.at(node);
         }
 
-        void setParent(unsigned int node, unsigned int parent) {
+        void setParent(int node, int parent) {
             _relations.at(node) = parent;
         }
 
-        vector<unsigned int> getChildren (int parent) {
-            vector<unsigned int> found;
+        vector<int> getChildren (int parent) {
+            vector<int> found;
             found = _getOccurences(parent);
             return found;
         }
 
-        bool inRange(unsigned int val) {
+        bool inRange(int val) {
             if (val >= 0 && val < _relations.size()) return true;
             else return false;
         }
 
-        T getName(unsigned int node) {
+        T getName(int node) {
             return _names.at(node);
         }
 
-        vector<unsigned int> getAllChildren (unsigned int parent) {
-            vector<unsigned int> found;
+        vector<int> getAllChildren (int parent) {
+            vector<int> found;
             found = _getOccurences(parent);
             int i  = 0;
             while (i < found.size()) {
-                vector<unsigned int> nfound;
+                vector<int> nfound;
                 nfound = _getOccurences(found.at(i));
                 found.insert(found.end(), nfound.begin(), nfound.end());
                 ++i;
@@ -56,16 +56,16 @@ class cpptree {
             return found;
         }
 
-        unsigned int getSize() {
+        int getSize() {
             return _relations.size();
         }
 
-        void setName (unsigned int node, T desc) {
+        void setName (int node, T desc) {
             _names.at(node) = desc;
         }
 
-        void removeNode(unsigned int node) { // Removing nodes in this vector implementation is slow
-            vector<unsigned int> found = getAllChildren(node);
+        void removeNode(int node) { // Removing nodes in this vector implementation is slow
+            vector<int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
                 found.erase(found.begin() + (found.size()-1));
@@ -79,9 +79,9 @@ class cpptree {
         }
 
         void printTree() { // This implementation of printing the tree is a bit dumb... but it's fast enough so WONTFIX
-            unsigned int maxdepth = 0;
+            int maxdepth = 0;
             for (int i = 0; i < _relations.size(); i++) if (_getDepth(i) > maxdepth) maxdepth = _getDepth(i);
-            vector<unsigned int> sorted = _sortedCrawl();
+            vector<int> sorted = _sortedCrawl();
             
             char** matrix = new char*[sorted.size()+1];
             for(int i = 0; i < sorted.size()+1; ++i)
@@ -149,8 +149,8 @@ class cpptree {
         vector<int> _relations;
         vector<T> _names;
 
-        vector<unsigned int> _getOccurences(unsigned int parent) {
-            vector<unsigned int> _found;
+        vector<int> _getOccurences(int parent) {
+            vector<int> _found;
             for (int i = 0; i < _relations.size(); i++) {
                 if (_relations.at(i) == parent) 
                     _found.push_back(i);
@@ -158,7 +158,7 @@ class cpptree {
             return _found;
         }
 
-        void _rLastNode(unsigned int node) {
+        void _rLastNode(int node) {
             _relations.erase(_relations.begin() + node);
             _names.erase(_names.begin() + node);
             for (int i = 1; i < _relations.size(); i++) {
@@ -166,7 +166,7 @@ class cpptree {
             }
         }
 
-        unsigned int _getDepth(unsigned int node) {
+        int _getDepth(int node) {
             int parent = getParent(node);
             int depth = 0;
             while (parent != -1) {
@@ -176,13 +176,13 @@ class cpptree {
             return depth;
         }
 
-        vector<unsigned int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
+        vector<int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
             int counter = 0;
-            vector<unsigned int> sorted;
-            vector<unsigned int> indexes;
+            vector<int> sorted;
+            vector<int> indexes;
             indexes.push_back(0);
             while (true) {
-                vector<unsigned int> found = _getOccurences(counter);
+                vector<int> found = _getOccurences(counter);
                 if (found.size() > indexes.at(_getDepth(counter))) {
                     counter = found.at(indexes.at(_getDepth(counter)));
                     sorted.push_back(counter);
