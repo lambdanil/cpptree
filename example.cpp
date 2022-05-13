@@ -22,8 +22,8 @@ void NodeAllNodes ();
 
 void NodeAdd(cpptree<string>* my_tree) {
     cout << "\nWhich node do you want to add to?\n";
-    unsigned int select;
-    unsigned int newNode;
+    int select;
+    int newNode;
     cin >> select;
     if (my_tree->inRange(select)) {
         newNode = my_tree->addNode(select);
@@ -37,7 +37,7 @@ void NodeAdd(cpptree<string>* my_tree) {
 
 void NodeRemove(cpptree<string>* my_tree) {
     cout << "\nWhich node do you want to remove?\n";
-    unsigned int select;
+    int select;
     cin >> select;
     if (my_tree->inRange(select) && select) {
         my_tree->removeNode(select);
@@ -54,7 +54,7 @@ void NodeRemove(cpptree<string>* my_tree) {
 
 void NodeAssign(cpptree<string>* my_tree) {
     cout << "\nWhich node do you want to set value of?\n";
-    unsigned int select;
+    int select;
     cin >> select;
     if (my_tree->inRange(select)) {
         cout << "\nWhat value do you want to set? (enter any string)\n";
@@ -72,10 +72,10 @@ void NodeAssign(cpptree<string>* my_tree) {
 
 void NodeNodes(cpptree<string>* my_tree) {
     cout << "\nWhich node do you want list?\n";
-    unsigned int select;
+    int select;
     cin >> select;
     if (my_tree->inRange(select)) {
-        vector<unsigned int> allNodes;
+        vector<int> allNodes;
         allNodes = my_tree->getChildren(select);
         cout << "\nNodes under '" << select << "' are";
         for (int i = 0; i < allNodes.size(); i++) {
@@ -92,10 +92,10 @@ void NodeNodes(cpptree<string>* my_tree) {
 
 void NodeAllNodes(cpptree<string>* my_tree) {
     cout << "\nWhich node do you want list?\n";
-    unsigned int select;
+    int select;
     cin >> select;
     if (my_tree->inRange(select)) {
-        vector<unsigned int> allNodes;
+        vector<int> allNodes;
         allNodes = my_tree->getAllChildren(select);
         cout << "\nAll nodes under '" << select << "' are";
         for (int i = 0; i < allNodes.size(); i++) {
