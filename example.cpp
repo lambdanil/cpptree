@@ -86,6 +86,7 @@ void NodeNodes(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
+    getchar();
     cin.ignore();
 }
 
@@ -105,6 +106,7 @@ void NodeAllNodes(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
+    getchar();
     cin.ignore();
 }
 
