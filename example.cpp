@@ -32,6 +32,7 @@ void NodeAdd(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '" << select << "' doesn't exist.\n";
     }
+    getchar();
     cin.ignore();
 }
 
@@ -49,6 +50,7 @@ void NodeRemove(cpptree<string>* my_tree) {
     else {
         cout << "\nNode '0' can't be removed.\n";
     }
+    getchar();
     cin.ignore();
 }
 
