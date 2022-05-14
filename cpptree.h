@@ -9,9 +9,9 @@ using std::string;
 using std::cout;
 
 template <class T>
-class vtree {
+class vector_tree {
     public:
-        vtree () { _relations.push_back(-1);
+        vector_tree () { _relations.push_back(-1);
                    _names.push_back(T()); }
 
         int addNode (int parent) {
