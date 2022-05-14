@@ -82,64 +82,63 @@ class vector_tree {
             int maxdepth = 0;
             for (int i = 0; i < _relations.size(); i++) if (_getDepth(i) > maxdepth) maxdepth = _getDepth(i);
             vector<int> sorted = _sortedCrawl();
-            
+            int exs = 0;
+            int nypos = 0;
+
             char** matrix = new char*[sorted.size()+1];
             for(int i = 0; i < sorted.size()+1; ++i)
                 matrix[i] = new char[maxdepth+1];
 
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    if (j < _getDepth(sorted[i]))
-                        matrix[i][j] = '.';
-                    else
-                        matrix[i][j] = ' ';
-                }
-            }
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    if (matrix[i][j] == '.' && matrix[i][j+1] == ' ') matrix[i][j] = 'x';
-                    if (matrix[i][j] == '.' && j == maxdepth-1) matrix[i][j] = 'x';
-                }
-            }
-            int exs = 0;
-            int nypos = 0;
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    if (matrix[i][j] == 'x') {
-                        for (int k = i+1; k < sorted.size(); k++) {
-                            if (matrix[k][j] != '.' && matrix[k][j] != 'x') break;
-                            if (matrix[k][j] == 'x') exs++;
+            cout << "0 - " << _names.at(0) << "\n";
+            for (int loop = 0; loop < 5; loop++) {
+                for (int i = 0; i < sorted.size(); i++) {
+                    for (int j = 0; j < maxdepth; j++) {
+                        if (loop == 0) {
+                            if (j < _getDepth(sorted[i]))
+                                matrix[i][j] = '.';
+                            else
+                                matrix[i][j] = ' ';
+                        }
+                        else if (loop == 1) {
+                            if (matrix[i][j] == '.' && matrix[i][j+1] == ' ') matrix[i][j] = 'x';
+                            if (matrix[i][j] == '.' && j == maxdepth-1) matrix[i][j] = 'x';
+                        }
+                        else if (loop == 2) {
+                            if (matrix[i][j] == 'x') {
+                                for (int k = i+1; k < sorted.size(); k++) {
+                                    if (matrix[k][j] != '.' && matrix[k][j] != 'x') break;
+                                    if (matrix[k][j] == 'x') exs++;
+                                }
+                            }
+                            nypos = i+1;
+                            while (exs != 0) {
+                                if (matrix[nypos][j] == '.') matrix[nypos][j] = 'x';
+                                else if (matrix[nypos][j] == 'x') --exs;
+                                nypos++;
+                            }
+                        }
+                        else if (loop == 3) {
+                            if (matrix[i][j] == 'x' ) {
+                                if (matrix[i][j+1] != 'x' && matrix[i+1][j] == 'x') matrix[i][j] = '+';
+                                if (matrix[i][j+1] != 'x' && matrix[i+1][j] != 'x') matrix[i][j] = 'L';
+                                if (j != maxdepth-1)
+                                    if ((matrix[i][j+1] == 'x' || matrix[i][j+1] == '.') && matrix[i+1][j] != ' ') matrix[i][j] = '|';
+                            }
+                        }
+                        else if (loop == 4) {
+                            if (matrix[i][j] == '+') cout << "├── ";
+                            else if (matrix[i][j] == 'L') cout << "└── ";
+                            else if (matrix[i][j] == '|') cout << "│   ";
+                            else if (matrix[i][j] == '.') cout << "    ";
                         }
                     }
-                    nypos = i+1;
-                    while (exs != 0) {
-                        if (matrix[nypos][j] == '.') matrix[nypos][j] = 'x';
-                        else if (matrix[nypos][j] == 'x') --exs;
-                        nypos++;
+                    if (loop == 4) {
+                        cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
+                        cout << "\n";
                     }
                 }
             }
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    if (matrix[i][j] == 'x' ) {
-                        if (matrix[i][j+1] != 'x' && matrix[i+1][j] == 'x') matrix[i][j] = '+';
-                        if (matrix[i][j+1] != 'x' && matrix[i+1][j] != 'x') matrix[i][j] = 'L';
-                        if (j != maxdepth-1)
-                            if ((matrix[i][j+1] == 'x' || matrix[i][j+1] == '.') && matrix[i+1][j] != ' ') matrix[i][j] = '|';
-                    }
-                }
-            }
-            cout << "0 - " << _names.at(0) << "\n";
-            for (int i = 0; i < sorted.size(); i++) {
-                for (int j = 0; j < maxdepth; j++) {
-                    if (matrix[i][j] == '+') cout << "├── ";
-                    else if (matrix[i][j] == 'L') cout << "└── ";
-                    else if (matrix[i][j] == '|') cout << "│   ";
-                    else if (matrix[i][j] == '.') cout << "    ";
-                }
-                cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
-                cout << "\n";
-            }
+
             for(int i = 0; i < sorted.size()+1; ++i)
                 delete[] matrix[i];
             delete[] matrix;
