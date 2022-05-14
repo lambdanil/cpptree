@@ -20,7 +20,7 @@ void NodeAssign ();
 void NodeNodes ();
 void NodeAllNodes ();
 
-void NodeAdd(cpptree<string>* my_tree) {
+void NodeAdd(vector_tree<string>* my_tree) {
     cout << "\nWhich node do you want to add to?\n";
     int select;
     int newNode;
@@ -36,7 +36,7 @@ void NodeAdd(cpptree<string>* my_tree) {
     cin.ignore();
 }
 
-void NodeRemove(cpptree<string>* my_tree) {
+void NodeRemove(vector_tree<string>* my_tree) {
     cout << "\nWhich node do you want to remove?\n";
     int select;
     cin >> select;
@@ -54,7 +54,7 @@ void NodeRemove(cpptree<string>* my_tree) {
     cin.ignore();
 }
 
-void NodeAssign(cpptree<string>* my_tree) {
+void NodeAssign(vector_tree<string>* my_tree) {
     cout << "\nWhich node do you want to set value of?\n";
     int select;
     cin >> select;
@@ -72,7 +72,7 @@ void NodeAssign(cpptree<string>* my_tree) {
     cin.ignore();
 }
 
-void NodeNodes(cpptree<string>* my_tree) {
+void NodeNodes(vector_tree<string>* my_tree) {
     cout << "\nWhich node do you want list?\n";
     int select;
     cin >> select;
@@ -92,7 +92,7 @@ void NodeNodes(cpptree<string>* my_tree) {
     cin.ignore();
 }
 
-void NodeAllNodes(cpptree<string>* my_tree) {
+void NodeAllNodes(vector_tree<string>* my_tree) {
     cout << "\nWhich node do you want list?\n";
     int select;
     cin >> select;
