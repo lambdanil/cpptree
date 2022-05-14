@@ -113,7 +113,7 @@ void NodeAllNodes(cpptree<string>* my_tree) {
 }
 
 int main() {
-    cpptree<string> mytree;
+    vtree<string> mytree;
     int cnode;
     mytree.setName(0, "This is a tree of strings.");
     cnode = mytree.addNode(0);
