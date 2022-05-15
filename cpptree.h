@@ -4,10 +4,6 @@
 #include <algorithm>
 #include <vector>
 
-using std::vector;
-using std::string;
-using std::cout;
-
 template <class T>
 class vector_tree {
     public:
@@ -28,8 +24,8 @@ class vector_tree {
             _relations.at(node) = parent;
         }
 
-        vector<int> getChildren (int parent) {
-            vector<int> found;
+        std::vector<int> getChildren (int parent) {
+            std::vector<int> found;
             found = _getOccurences(parent);
             return found;
         }
@@ -43,12 +39,12 @@ class vector_tree {
             return _names.at(node);
         }
 
-        vector<int> getAllChildren (int parent) {
-            vector<int> found;
+        std::vector<int> getAllChildren (int parent) {
+            std::vector<int> found;
             found = _getOccurences(parent);
             int i  = 0;
             while (i < found.size()) {
-                vector<int> nfound;
+                std::vector<int> nfound;
                 nfound = _getOccurences(found.at(i));
                 found.insert(found.end(), nfound.begin(), nfound.end());
                 ++i;
@@ -65,7 +61,7 @@ class vector_tree {
         }
 
         void removeNode(int node) { // Removing nodes in this vector implementation is slow
-            vector<int> found = getAllChildren(node);
+            std::vector<int> found = getAllChildren(node);
             while (found.size() != 0) {
                 _rLastNode(found.at(found.size()-1));
                 found.erase(found.begin() + (found.size()-1));
@@ -81,7 +77,7 @@ class vector_tree {
         void printTree() { // This implementation of printing the tree is a bit dumb... but it's fast enough so WONTFIX
             int maxdepth = 0;
             for (int i = 0; i < _relations.size(); i++) if (_getDepth(i) > maxdepth) maxdepth = _getDepth(i);
-            vector<int> sorted = _sortedCrawl();
+            std::vector<int> sorted = _sortedCrawl();
             int exs = 0;
             int nypos = 0;
 
@@ -89,7 +85,7 @@ class vector_tree {
             for(int i = 0; i < sorted.size()+1; ++i)
                 matrix[i] = new char[maxdepth+1];
 
-            cout << "0 - " << _names.at(0) << "\n";
+            std::cout << "0 - " << _names.at(0) << "\n";
             for (int loop = 0; loop < 5; loop++) {
                 for (int i = 0; i < sorted.size(); i++) {
                     for (int j = 0; j < maxdepth; j++) {
@@ -126,15 +122,15 @@ class vector_tree {
                             }
                         }
                         else if (loop == 4) {
-                            if (matrix[i][j] == '+') cout << "├── ";
-                            else if (matrix[i][j] == 'L') cout << "└── ";
-                            else if (matrix[i][j] == '|') cout << "│   ";
-                            else if (matrix[i][j] == '.') cout << "    ";
+                            if (matrix[i][j] == '+') std::cout << "├── ";
+                            else if (matrix[i][j] == 'L') std::cout << "└── ";
+                            else if (matrix[i][j] == '|') std::cout << "│   ";
+                            else if (matrix[i][j] == '.') std::cout << "    ";
                         }
                     }
                     if (loop == 4) {
-                        cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
-                        cout << "\n";
+                        std::cout << sorted.at(i) << " - " << _names.at(sorted.at(i));
+                        std::cout << "\n";
                     }
                 }
             }
@@ -145,11 +141,11 @@ class vector_tree {
         }
 
     private:
-        vector<int> _relations;
-        vector<T> _names;
+        std::vector<int> _relations;
+        std::vector<T> _names;
 
-        vector<int> _getOccurences(int parent) {
-            vector<int> _found;
+        std::vector<int> _getOccurences(int parent) {
+            std::vector<int> _found;
             for (int i = 0; i < _relations.size(); i++) {
                 if (_relations.at(i) == parent) 
                     _found.push_back(i);
@@ -175,13 +171,13 @@ class vector_tree {
             return depth;
         }
 
-        vector<int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
+        std::vector<int> _sortedCrawl() { // This function doesn't scale well, only a problem when thousands of nodes are reached.
             int counter = 0;
-            vector<int> sorted;
-            vector<int> indexes;
+            std::vector<int> sorted;
+            std::vector<int> indexes;
             indexes.push_back(0);
             while (true) {
-                vector<int> found = _getOccurences(counter);
+                std::vector<int> found = _getOccurences(counter);
                 if (found.size() > indexes.at(_getDepth(counter))) {
                     counter = found.at(indexes.at(_getDepth(counter)));
                     sorted.push_back(counter);
