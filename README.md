@@ -9,7 +9,7 @@ C++ tree implementation using vectors
 #include "cpptree.h"
 
 int main() {
-    cpptree<std::string> mytree; // Set stored data type
+    vector_tree<std::string> mytree; // Set stored data type
     mytree.addNode(0); // Add to node 0
     mytree.addNode(0);
     int nodenum = mytree.addNode(2); // Return value is the new nodes number
