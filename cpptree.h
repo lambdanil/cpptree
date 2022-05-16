@@ -12,6 +12,11 @@ public:
         _names.push_back(T());
     }
 
+    vector_tree(std::vector<int> rel, std::vector<T> names) {
+        _relations = rel;
+        _names = names;
+    }
+
     int addNode(int parent) {
         _relations.push_back(parent);
         _names.push_back(T());
