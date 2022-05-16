@@ -47,15 +47,16 @@ public:
 
     std::vector<int> pathToRoot(int node) {
         std::vector<int> path;
-        do {
+        while (_relations.at(node) != -1) {
             path.push_back(node);
             node = _relations.at(node);
-        } while (_relations.at(node) != -1);
+        }
+        path.push_back(node);
         return path;
     }
 
     std::vector<int> pathFromRoot(int node) {
-        std::vector path = pathToRoot(node);
+        std::vector<int> path = pathToRoot(node);
         std::reverse(path.begin(), path.end());
         return path;
     }
